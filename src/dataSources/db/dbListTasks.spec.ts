@@ -49,4 +49,19 @@ describe('DbListTasks', () => {
     await sut.list()
     expect(listSpy).toHaveBeenCalled()
   })
+
+  test('Deve retornar tarefas em caso de sucesso', async () => {
+    const { sut } = makeSut()
+    const tasks = await sut.list()
+    expect(tasks).toEqual(makeFakeTasks())
+  })
+
+  test('Deve lançar um erro se ListTasksRepository lançar um erro', async () => {
+    const { sut, listTasksRepositoryStub } = makeSut()
+    jest
+      .spyOn(listTasksRepositoryStub, 'list')
+      .mockReturnValueOnce(Promise.reject(new Error()))
+    const promise = sut.list()
+    await expect(promise).rejects.toThrow()
+  })
 })
