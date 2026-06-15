@@ -17,11 +17,12 @@ const makeListTasks = (): ListTasks => {
 
 interface SutTypes {
   sut: ListTasksController
+  listTaskStub: ListTasks
 }
 const makeSut = (): SutTypes => {
   const listTaskStub = makeListTasks()
   const sut = new ListTasksController(listTaskStub)
-  return { sut }
+  return { sut, listTaskStub }
 }
 
 const makeFakeTasks = (): Task[] => {
@@ -43,7 +44,8 @@ const makeFakeTasks = (): Task[] => {
 
 describe('ListTasks Controller', () => {
   test('Retornar 204 se a lista estiver vazia', async () => {
-    const { sut } = makeSut()
+    const { sut, listTaskStub } = makeSut()
+    jest.spyOn(listTaskStub, 'list').mockReturnValueOnce(Promise.resolve([]))
     const httpResponse = await sut.handle({})
 
     expect(httpResponse).toEqual(noContent())
