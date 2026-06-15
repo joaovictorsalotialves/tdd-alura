@@ -1,0 +1,52 @@
+import type { Task } from '../../entities/task'
+import type { ListTasksRepository } from '../../usecases/repository/listTaskRepository'
+import { DbListTasks } from './dbListTasks'
+
+const makeFakeTasks = (): Task[] => {
+  return [
+    {
+      id: 'any_id',
+      title: 'any_title',
+      description: 'any_description',
+      date: 'any_date',
+    },
+    {
+      id: 'outher_id',
+      title: 'outher_title',
+      description: 'outher_description',
+      date: 'outher_date',
+    },
+  ]
+}
+
+const makeListTasksRepository = (): ListTasksRepository => {
+  class ListTasksRepositoryStub implements ListTasksRepository {
+    async list(): Promise<Task[]> {
+      return Promise.resolve(makeFakeTasks())
+    }
+  }
+
+  return new ListTasksRepositoryStub()
+}
+
+interface SutTypes {
+  sut: DbListTasks
+  listTasksRepositoryStub: ListTasksRepository
+}
+const makeSut = (): SutTypes => {
+  const listTasksRepositoryStub = makeListTasksRepository()
+  const sut = new DbListTasks(listTasksRepositoryStub)
+  return {
+    sut,
+    listTasksRepositoryStub,
+  }
+}
+
+describe('DbListTasks', () => {
+  test('Deve chamar ListTasksRepository', async () => {
+    const { sut, listTasksRepositoryStub } = makeSut()
+    const listSpy = jest.spyOn(listTasksRepositoryStub, 'list')
+    await sut.list()
+    expect(listSpy).toHaveBeenCalled()
+  })
+})
