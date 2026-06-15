@@ -1,7 +1,7 @@
 export interface DeleteTaskModel {
-  id: string;
+  id: string
 }
 
 export interface DeleteTask {
-  delete(task: DeleteTaskModel): Promise<Error | void>;
+  delete(task: DeleteTaskModel): Promise<Error | void>
 }

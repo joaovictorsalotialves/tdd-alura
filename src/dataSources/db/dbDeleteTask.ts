@@ -1,12 +1,12 @@
-import {
+import type {
   DeleteTask,
   DeleteTaskModel,
   DeleteTaskRepository,
-} from "../../usecases/";
+} from '../../usecases/'
 
 export class DbDeleteTask implements DeleteTask {
   constructor(private readonly deleteTaskRepository: DeleteTaskRepository) {}
   async delete(taskData: DeleteTaskModel): Promise<Error | void> {
-    return await this.deleteTaskRepository.delete(taskData);
+    return await this.deleteTaskRepository.delete(taskData)
   }
 }

@@ -1,16 +1,16 @@
-import { DeleteTask } from "../../../usecases/deleteTask";
-import {
+import type { DeleteTask } from '../../../usecases/deleteTask'
+import type {
   Controller,
-  Validation,
   HttpRequest,
   HttpResponse,
-} from "../../interfaces";
+  Validation,
+} from '../../interfaces'
 
 import {
   badRequest,
   noContent,
   serverError,
-} from "../../presentations/api/httpResponses/httpResponses";
+} from '../../presentations/api/httpResponses/httpResponses'
 
 export class DeleteTaskController implements Controller {
   constructor(
@@ -19,21 +19,21 @@ export class DeleteTaskController implements Controller {
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const { id } = httpRequest.body;
+      const { id } = httpRequest.body
 
-      const isValid = this.validation.validate({ id });
+      const isValid = this.validation.validate({ id })
       if (isValid) {
-        return badRequest(isValid);
+        return badRequest(isValid)
       }
 
-      const error = await this.deleteTask.delete({ id });
+      const error = await this.deleteTask.delete({ id })
       if (error) {
-        return badRequest(error);
+        return badRequest(error)
       }
 
-      return noContent();
+      return noContent()
     } catch (error: any) {
-      return serverError(error);
+      return serverError(error)
     }
   }
 }

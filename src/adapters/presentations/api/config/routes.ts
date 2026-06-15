@@ -1,8 +1,8 @@
-import { Express, Router } from "express";
-import taskRoutes from "../routes/taskRoutes";
+import { type Express, Router } from 'express'
+import taskRoutes from '../routes/taskRoutes'
 
 export default (app: Express): void => {
-  const router = Router();
-  taskRoutes(router);
-  app.use("/api", router);
-};
+  const router = Router()
+  taskRoutes(router)
+  app.use('/api', router)
+}

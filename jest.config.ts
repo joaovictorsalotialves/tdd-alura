@@ -7,6 +7,7 @@ const config: Config = {
   coverageProvider: "v8",
   roots: ["<rootDir>/src"],
   transform: { ".+\\.ts$": "ts-jest" },
+  testEnvironment: 'node',
   moduleNameMapper: {
     "@/tests/(.*)": "<rootDir>/tests/$1",
     "@/(.*)": "<rootDir>/src/$1",

@@ -1,6 +1,6 @@
-import { LogErrorRepository } from "../../usecases/repository/logErrorRepository";
-import { Controller } from "../interfaces/controller";
-import { HttpRequest, HttpResponse } from "../interfaces/http";
+import type { LogErrorRepository } from '../../usecases/repository/logErrorRepository'
+import type { Controller } from '../interfaces/controller'
+import type { HttpRequest, HttpResponse } from '../interfaces/http'
 
 export class LogErrorControllerDecorator implements Controller {
   constructor(
@@ -8,10 +8,10 @@ export class LogErrorControllerDecorator implements Controller {
     private readonly logErrorRepository: LogErrorRepository
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const httpResponse = await this.controller.handle(httpRequest);
-    if (httpResponse.statusCode == 500) {
-      await this.logErrorRepository.log(httpResponse.body.stack);
+    const httpResponse = await this.controller.handle(httpRequest)
+    if (httpResponse.statusCode === 500) {
+      await this.logErrorRepository.log(httpResponse.body.stack)
     }
-    return httpResponse;
+    return httpResponse
   }
 }

@@ -1,6 +1,6 @@
-import { DateValidator } from "../interfaces/dateValidator";
-import { Validation } from "../interfaces/validation";
-import { InvalidParamError } from "../presentations/api/errors/invalid-param-error";
+import type { DateValidator } from '../interfaces/dateValidator'
+import type { Validation } from '../interfaces/validation'
+import { InvalidParamError } from '../presentations/api/errors/invalid-param-error'
 
 export class DateValidation implements Validation {
   constructor(
@@ -8,9 +8,9 @@ export class DateValidation implements Validation {
     private dateValidator: DateValidator
   ) {}
   validate(data: any): void | Error {
-    const isValid = this.dateValidator.isValid(data[this.field]);
+    const isValid = this.dateValidator.isValid(data[this.field])
     if (!isValid) {
-      return new InvalidParamError(this.field);
+      return new InvalidParamError(this.field)
     }
   }
 }

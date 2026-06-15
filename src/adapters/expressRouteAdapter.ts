@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
-import { Controller } from "./interfaces/controller";
+import type { Request, Response } from 'express'
+import type { Controller } from './interfaces/controller'
 
 export const expressRouteAdapter = (controller: Controller) => {
   return async (req: Request, res: Response) => {
     const httpRequest = {
       body: req.body,
-    };
-    const httpResponse = await controller.handle(httpRequest);
+    }
+    const httpResponse = await controller.handle(httpRequest)
 
     if (httpResponse.statusCode === 204 || httpResponse.statusCode == 201) {
-      res.status(httpResponse.statusCode).json(httpResponse.body);
+      res.status(httpResponse.statusCode).json(httpResponse.body)
     } else {
       res
         .status(httpResponse.statusCode)
-        .json({ error: httpResponse.body.message });
+        .json({ error: httpResponse.body.message })
     }
-  };
-};
+  }
+}
