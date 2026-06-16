@@ -7,7 +7,11 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["./src/**/*.ts", "./server.ts"]
+    "includes": [
+      "./src/**/*.ts",
+      "./jest.config.ts",
+      "./jest-mongodb-config.ts"
+    ]
   },
   "formatter": {
     "enabled": true,

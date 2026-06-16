@@ -1,17 +1,18 @@
-import type { Config } from "jest";
+import type { Config } from 'jest'
 
 const config: Config = {
   collectCoverage: false,
-  collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
-  roots: ["<rootDir>/src"],
-  transform: { ".+\\.ts$": "ts-jest" },
+  preset: '@shelf/jest-mongodb',
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8',
+  roots: ['<rootDir>/src'],
+  transform: { '.+\\.ts$': 'ts-jest' },
   testEnvironment: 'node',
   moduleNameMapper: {
-    "@/tests/(.*)": "<rootDir>/tests/$1",
-    "@/(.*)": "<rootDir>/src/$1",
+    '@/tests/(.*)': '<rootDir>/tests/$1',
+    '@/(.*)': '<rootDir>/src/$1',
   },
-};
+}
 
-export default config;
+export default config
