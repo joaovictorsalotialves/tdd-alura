@@ -17,15 +17,18 @@ describe('TaskMongoRepository', () => {
 
   test('Deve retornar a tarefa em caso de sucesso', async () => {
     const sut = makeSut()
-    const task = await sut.add({
+    await sut.add({
       title: 'any_title',
       description: 'any_description',
       date: '30/06/2024',
     })
 
-    expect(task.id).toBeTruthy()
-    expect(task.title).toBe('any_title')
-    expect(task.description).toBe('any_description')
-    expect(task.date).toBe('30/06/2024')
+    const tasks = await sut.list()
+
+    expect(tasks[0].id).toBeTruthy()
+    expect(tasks[0].title).toBe('any_title')
+    expect(tasks[0].description).toBe('any_description')
+    expect(tasks[0].date).toBe('30/06/2024')
+    expect(tasks.length).toBe(1)
   })
 })
