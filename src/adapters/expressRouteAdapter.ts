@@ -8,8 +8,10 @@ export const expressRouteAdapter = (controller: Controller) => {
     }
     const httpResponse = await controller.handle(httpRequest)
 
-    if (httpResponse.statusCode === 204 || httpResponse.statusCode == 201) {
+    if (httpResponse.statusCode === 200 || httpResponse.statusCode === 201) {
       res.status(httpResponse.statusCode).json(httpResponse.body)
+    } else if (httpResponse.statusCode === 204) {
+      res.status(httpResponse.statusCode).send()
     } else {
       res
         .status(httpResponse.statusCode)

@@ -7,7 +7,6 @@ import type {
 } from '../../interfaces'
 import {
   badRequest,
-  created,
   noContent,
   serverError,
 } from '../../presentations/api/httpResponses/httpResponses'

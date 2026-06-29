@@ -11,10 +11,16 @@ import type {
   DeleteTaskRepository,
 } from '../../../usecases'
 import type { ListTasksRepository } from '../../../usecases/repository/listTaskRepository'
+import type { UpdateTaskRepository } from '../../../usecases/repository/updateTaskRepository'
+import type { UpdateTaskModel } from '../../../usecases/updateTask'
 import { MongoManager } from '../../config/mongoManager'
 
 export class TaskMongoRepository
-  implements AddTaskRepository, DeleteTaskRepository, ListTasksRepository
+  implements
+    AddTaskRepository,
+    DeleteTaskRepository,
+    ListTasksRepository,
+    UpdateTaskRepository
 {
   async add(taskData: AddTaskModel): Promise<Task> {
     const taskCollection = MongoManager.getInstance().getCollection('tasks')
@@ -57,5 +63,37 @@ export class TaskMongoRepository
     })
 
     return tasksFormatted
+  }
+
+  async update(taskData: UpdateTaskModel): Promise<void | Error> {
+    const taskCollection = MongoManager.getInstance().getCollection('tasks')
+
+    if (!ObjectId.isValid(taskData.id)) {
+      return new InvalidParamError(taskData.id)
+    }
+
+    const taskById = await taskCollection.findOne({
+      _id: new ObjectId(taskData.id),
+    })
+
+    if (!taskById) return new NotFoundError('task')
+
+    const task: Task = {
+      id: taskById._id.toHexString(),
+      title: taskById.title,
+      description: taskById.description,
+      date: taskById.date,
+    }
+
+    await taskCollection.updateOne(
+      { _id: new ObjectId(taskData.id) },
+      {
+        $set: {
+          title: taskData.title ?? task.title,
+          description: taskData.description ?? task.description,
+          date: taskData.date ?? task.date,
+        },
+      }
+    )
   }
 }
