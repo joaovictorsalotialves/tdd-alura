@@ -12,7 +12,31 @@ describe('TaskRoutes', () => {
     await client.disconnect()
   })
 
-  test.skip('Deve listar 204 se a lista estiver vazia', async () => {
+  beforeEach(async () => {
+    await client.getCollection('tasks').deleteMany({})
+  })
+
+  test('Deve listar 204 se a lista estiver vazia', async () => {
     await request(app).get('/api/tasks').expect(204)
+  })
+
+  test('Deve retornar 204 ao chamar a rota para atualizar a tarefa', async () => {
+    const task = await client.getCollection('tasks').insertOne({
+      title: 'old_title',
+      description: 'old_description',
+      date: 'old_date',
+    })
+
+    const taskId = task.insertedId.toHexString()
+
+    await request(app)
+      .put('/api/tasks')
+      .send({
+        id: taskId,
+        title: 'new_title',
+        description: 'new_description',
+        date: 'new_date',
+      })
+      .expect(204)
   })
 })
